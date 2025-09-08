@@ -1,4 +1,4 @@
-# problem-file2
+# problem-file2 (open challenge)
 <!DOCTYPE html>
 <html>
 <head>
@@ -43,5 +43,41 @@
     I enjoy playing games and watching movies.<br>
     I want to become a game developer in the future.
   </p>
+</body>
+</html>
+
+#실전문제 (1)
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<title>오류를 칼으세요</title>
+<style>
+  h3 { text-align : center; color : darkred; }
+  span { color : blue; font-size: 20px; }
+  </style>
+</head>
+<body>
+<h3>Elvis Presley</h3>
+He was an American singer and actor. In November 1956,
+he is often referred to as "<span>the King of Rock and Roll</span>".
+</body>
+</html>
+
+#실전문제 (2)
+<!DOCTYPE html>
+<html>
+<head>
+<body>
+<meta charset="utf-8">
+<title>2 </title>
+<style>
+h3 { text-align : center; color : darkred; } span {color : blue; font-size: 20px; }
+</style>
+</head>
+<body>
+</h3>
+He was an American singer and actor. In November 1956,
+he is often referred to as "<span>the King of Rock and Roll</span>".
 </body>
 </html>
