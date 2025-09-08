@@ -3,7 +3,7 @@
 <html>
 <head>
 <meta charset="utf-8">
-<title>이재윤 소개</title>
+<title>Lee Jae Yoon Introduction</title>
 <style>
   body {
     background-color: linen;
@@ -35,12 +35,13 @@
 </script>
 </head>
 <body>
-  <h3 onmouseover="show()" onmouseout="hide()">이재윤</h3>
+  <h3 onmouseover="show()" onmouseout="hide()">Lee Jae Yoon</h3>
   <hr>
   <div><img id="fig" src=""></div>
   <p>
-    저는 한국 학생입니다. 2005년 6월, 저는 게임을 하거나 영화를 보는 것을 좋아했습니다.<br>
-    그래서 저는 게임 개발자가 되고 싶습니다.
+    I am a Korean student. I was born in June 2005.<br>
+    I enjoy playing games and watching movies.<br>
+    I want to become a game developer in the future.
   </p>
 </body>
 </html>
