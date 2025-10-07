@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="utf-8">
+  <title>출근, 휴일 판별</title>
+  <style>
+    body {
+      text-align: center;
+      font-family: sans-serif;
+    }
+  </style>
+</head>
+<body>
+
+<script>
+  const day = prompt("월화수목금토일 중에서 입력하세요.");
+
+  let result = "<h1>출근, 휴일 판별하기</h1><hr>";
+
+  // 조건에 따라 판별
+  if (day === "월" || day === "화" || day === "수" || day === "목") {
+    result += `<p>${day}(은)는 출근</p>`;
+  } else if (day === "금" || day === "토" || day === "일") {
+    result += `<p>${day}(은)는 휴일</p>`;
+  } 
+  document.body.innerHTML = result;
+</script>
+
+</body>
+</html>

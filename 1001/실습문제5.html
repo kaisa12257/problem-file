@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="utf-8">
+  <title>암호를 대라</title>
+  <style>
+    body {
+      text-align: center;
+      font-family: sans-serif;
+    }
+  </style>
+</head>
+<body>
+
+<script>
+  const password = prompt("암호를 입력하라!");
+
+  let result = "<h1>암호를 입력하라!</h1><hr>";
+
+  if (password === "you") {
+    result += "<p>통과 </p>";
+  } else {
+    result += "<p>실패 </p>";
+  }
+
+  document.body.innerHTML = result;
+</script>
+
+</body>
+</html>

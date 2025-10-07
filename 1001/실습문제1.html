@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <title>자바스크립트 코드 위치</title>
+</head>
+<body>
+
+<h3>마우스를 올려 보세요</h3>
+<hr>
+
+<p>
+  <span id="highlight">배경색이 노란색으로</span> 변합니다.
+</p>
+
+<script>
+  const highlight = document.getElementById("highlight");
+
+  highlight.addEventListener("mouseover", () => {
+    highlight.style.backgroundColor = "yellow";
+  });
+
+  highlight.addEventListener("mouseout", () => {
+    highlight.style.backgroundColor = "white";
+  });
+</script>
+
+</body>
+</html>

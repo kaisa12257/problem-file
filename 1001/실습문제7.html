@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="utf-8">
+  <title>자릿수 비교</title>
+  <style>
+    body {
+      text-align: center;
+      font-family: sans-serif;
+    }
+  </style>
+</head>
+<body>
+
+<script>
+  const input = prompt("숫자를 입력하세요:");
+  const num = parseInt(input);
+
+  let result = "<h1>큰 자릿수와 낮은 자릿수 비교</h1><hr>";
+
+  if (isNaN(num) || num < 0) {
+    result += "<p>올바른 숫자를 입력하세요.</p>";
+  } else {
+    const strNum = num.toString();
+    const firstDigit = strNum[0];
+    const lastDigit = strNum[strNum.length - 1];
+
+    if (firstDigit === lastDigit) {
+      result += "<p>성공 </p>";
+    } else {
+      result += "<p>실패 </p>";
+    }
+  }
+
+  document.body.innerHTML = result;
+</script>
+
+</body>
+</html>

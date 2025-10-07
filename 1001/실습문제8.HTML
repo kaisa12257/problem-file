@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="utf-8">
+  <title>수식 계산기</title>
+</head>
+<body> 
+
+<script>
+  // 1. prompt로 수식 입력 받기
+  const expr = prompt("수식을 입력하세요 (예: 3+5*2)");
+
+  // 2. eval()로 계산
+  const result = eval(expr);
+
+  // 3. 결과 출력
+  document.write("<h1>eval()로 수식 계산</h1>");
+  document.write(expr + " = " + result);
+</script>
+
+</body>
+</html>
