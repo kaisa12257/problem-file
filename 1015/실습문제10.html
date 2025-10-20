@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <title>book 객체 만들기</title>
+</head>
+<body>
+  <h1>book 객체 만들기</h1>
+  <hr>
+  <script>
+    let books = [];
+
+    for (let i = 0; i < 5; i++) {
+      let input = prompt("콤마(,)로 구분하여 책 제목, 저자, 가격 순으로 입력");
+      if (input) {
+        let parts = input.split(",");
+        let book = {
+          title: parts[0].trim(),
+          author: parts[1].trim(),
+          price: parseInt(parts[2].trim())
+        };
+        books.push(book);
+      }
+    }
+
+    books.forEach(book => {
+      document.write(
+        "<span>제목: " + book.title + " </span>" +
+        "<span>저자: " + book.author + " </span>" +
+        "<span>가격: " + book.price + "원</span><br>"
+      );
+    });
+
+    let mostExpensive = books[0];
+    for (let i = 1; i < books.length; i++) {
+      if (books[i].price > mostExpensive.price) {
+        mostExpensive = books[i];
+      }
+    }
+
+    document.write("<hr>");
+    document.write("<br>가장 가격이 비싼 책은: " + mostExpensive.title + " (" + mostExpensive.price + "원)<br>");
+  </script>
+</body>
+</html>

@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <title> 문자열 분할</title>
+</head>
+<body>
+  <h3>문자열 분할</h3>
+  <hr>
+  <script>
+    let text = prompt("문자열입력  (& 기호로 구분)", "");
+    
+   
+    let parts = text.split("&");
+
+
+    for (let i = 0; i < parts.length; i++) {
+      document.write(parts[i] + "<br>");
+    }
+  </script>
+</body>
+</html>
