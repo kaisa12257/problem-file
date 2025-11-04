@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<title>리스트 항목 설명 표시</title>
+<style>
+  ul { text-align: left; }
+  li { margin: 8px 0; cursor: pointer; }
+  #info {
+    position: absolute;
+    padding: 10px;
+    background: #fff8dc;
+    border: 1px solid #333;
+    border-radius: 8px;
+    visibility: hidden;
+  }
+</style>
+<script>
+  document.addEventListener("DOMContentLoaded", function() {
+    const info = document.getElementById("info");
+
+    const descriptions = {
+      "자전거로 대한민국 일주": "전국의 명소를 자전거로 여행하며 체력을 키우는 계획입니다.",
+      "책 100권 읽기": "여름 방학 동안 100권의 책을 읽으며 지식을 쌓는 목표입니다.",
+      "철인 3종 경기 준비": "수영, 사이클, 마라톤 세 종목을 연습해 철인 대회에 도전합니다.",
+      "자바스크립트 정복": "프로그래밍 실력을 키우기 위해 JS 문법과 프로젝트를 학습합니다."
+    };
+
+    const items = document.querySelectorAll("li");
+
+    items.forEach(li => {
+      li.addEventListener("mouseover", function(e) {
+        info.innerHTML = descriptions[li.textContent.trim()] || "정보 없음";
+        info.style.left = (e.pageX + 15) + "px";
+        info.style.top = (e.pageY + 15) + "px";
+        info.style.visibility = "visible";
+      });
+
+      li.addEventListener("mouseout", function() {
+        info.style.visibility = "hidden";
+      });
+    });
+  });
+</script>
+</head>
+<body>
+  <h3>리스트 항목 위에 마우스를 올리면 설명이 나옵니다</h3>
+  <hr>
+  <ul>
+    <li>자전거로 대한민국 일주</li>
+    <li>책 100권 읽기</li>
+    <li>철인 3종 경기 준비</li>
+    <li>자바스크립트 정복</li>
+  </ul>
+  <div id="info"></div>
+</body>
+</html>

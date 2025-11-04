@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<title>getElementsByTagName 예제</title>
+</head>
+<body>
+<ol type="A">
+  <li>첫 번째 항목</li>
+  <li>두 번째 항목</li>
+  <li>세 번째 항목</li>
+</ol>
+
+<script>
+  var liElements = document.getElementsByTagName("li");
+  for (var i = 0; i < liElements.length; i++) {
+    liElements[i].style.color = "green";
+  }
+</script>
+</body>
+</html>

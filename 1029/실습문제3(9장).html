@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>계산기 만들기</title>
+    <script>
+        function calc() {
+            const exprInput = document.getElementById("expr");
+            const valueOutput = document.getElementById("value");
+            const result = eval(exprInput.value);
+            valueOutput.value = result;
+        }
+    </script>
+</head>
+<body>
+    <h3>계산기 만들기</h3>
+    <hr>
+    <h2>수식을 입력하고 &lt;enter&gt;를 입력하세요</h2>
+    <p>
+        식: <input type="text" id="expr" onkeydown="if(event.key==='Enter') calc();" style="width:200px;">
+    </p>
+    <p>
+        값: <input type="text" id="value" readonly style="width:200px;">
+    </p>
+</body>
+</html>

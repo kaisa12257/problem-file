@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>라디오 버튼으로 과일 이미지 출력</title>
+<script>
+function showFruit() {
+  const fruits = document.getElementsByName("fruit");
+  let selected = null;
+
+  for (let i = 0; i < fruits.length; i++) {
+    if (fruits[i].checked) {
+      selected = fruits[i].value;
+      break;
+    }
+  }
+
+  const imgs = document.getElementsByClassName("fruitImg");
+  for (let i = 0; i < imgs.length; i++) {
+    imgs[i].style.display = "none";
+  }
+
+  if (selected) {
+    document.getElementById(selected).style.display = "block";
+  }
+}
+</script>
+</head>
+<body>
+<h3>라디오 버튼을 클릭하면 과일 이미지를 출력합니다.</h3>
+<hr>
+
+<form>
+  <input type="radio" name="fruit" value="apple" onclick="showFruit()">사과
+  <input type="radio" name="fruit" value="banana" onclick="showFruit()">바나나
+  <input type="radio" name="fruit" value="mango" onclick="showFruit()">망고
+</form>
+
+<img id="apple" class="fruitImg" src="file:///E:/과제4/사과.jpg" alt="사과" width="200" style="display:none;">
+<img id="banana" class="fruitImg" src="file:///E:/과제4/바나나.jpg" alt="바나나" width="200" style="display:none;">
+<img id="mango" class="fruitImg" src="file:///E:/과제4/망고.jpg" alt="망고" width="200" style="display:none;">
+
+</body>
+</html>

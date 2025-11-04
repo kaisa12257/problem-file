@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<title>자바스크립트 </title>
+<script>
+function rotateOnce(img) {
+  img.style.transform = "rotate(90deg)";
+  img.style.transition = "transform 0.3s";
+  img.onclick = null;  
+}
+</script>
+<style>
+img {
+  width: 200px;
+  cursor: pointer;
+}
+</style>
+</head>
+<body>
+<h3>클릭하면 90도 회전하고 다시는 클릭되지 않습니다.</h3>
+<hr>
+<img src="E:/과제4/스폰지밥.jpg" onclick="rotateOnce(this)">
+</body>
+</html>

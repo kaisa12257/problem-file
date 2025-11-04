@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<title>마우스 클릭 연습</title>
+<script>
+  document.addEventListener("dblclick", function() {
+    const r = Math.floor(Math.random() * 256);
+    const g = Math.floor(Math.random() * 256);
+    const b = Math.floor(Math.random() * 256);
+    document.body.style.backgroundColor = `rgb(${r}, ${g}, ${b})`;
+  });
+</script>
+</head>
+<body>
+  <h3>마우스 클릭 연습</h3>
+  <hr>
+  <h2>바탕 아무 곳이나 더블클릭하면 배경색<br>이 랜덤하게 변합니다.</h2>
+</body>
+</html>

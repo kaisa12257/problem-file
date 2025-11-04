@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<title>계산기 만들기</title>
+<style>
+  body {
+    text-align: center;
+    background-color: #f4f4f4;
+    font-family: sans-serif;
+  }
+  .calculator {
+    display: inline-block;
+    background: white;
+    padding: 20px;
+    margin-top: 20px;
+    border-radius: 10px;
+    box-shadow: 0 0 10px rgba(0,0,0,0.2);
+  }
+  #display {
+    width: 220px;
+    height: 40px;
+    font-size: 18px;
+    text-align: right;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    margin-bottom: 15px;
+    padding-right: 8px;
+  }
+  .buttons {
+    display: grid;
+    grid-template-columns: repeat(4, 55px);
+    gap: 6px;
+    justify-content: center;
+  }
+  button {
+    padding: 10px;
+    font-size: 16px;
+    border: none;
+    background: #eee;
+    border-radius: 5px;
+    cursor: pointer;
+  }
+  button:hover {
+    background: #ddd;
+  }
+</style>
+</head>
+<body>
+  <h3>계산기 만들기</h3>
+  <hr>
+  
+  <div class="calculator">
+    <input type="text" id="display" value="0" disabled>
+
+    <div class="buttons">
+      <button onclick="handleInput('BACK')">BACK</button>
+      <button onclick="handleInput('CE')">CE</button>
+      <button onclick="handleInput('C')">C</button>
+      <button onclick="handleInput('=')">=</button>
+
+      <button onclick="handleInput('7')">7</button>
+      <button onclick="handleInput('8')">8</button>
+      <button onclick="handleInput('9')">9</button>
+      <button onclick="handleInput('/')">/</button>
+
+      <button onclick="handleInput('4')">4</button>
+      <button onclick="handleInput('5')">5</button>
+      <button onclick="handleInput('6')">6</button>
+      <button onclick="handleInput('*')">*</button>
+
+      <button onclick="handleInput('1')">1</button>
+      <button onclick="handleInput('2')">2</button>
+      <button onclick="handleInput('3')">3</button>
+      <button onclick="handleInput('-')">-</button>
+
+      <button onclick="handleInput('0')">0</button>
+      <button onclick="handleInput('.')">.</button>
+      <button onclick="handleInput('NONE')">NONE</button>
+      <button onclick="handleInput('+')">+</button>
+    </div>
+  </div>
+
+  <script>
+    const display = document.getElementById("display");
+
+    function handleInput(value) {
+      if (value === "C" || value === "CE") {
+        display.value = "0";
+      } 
+      else if (value === "BACK") {
+        if (display.value.length > 1) {
+          display.value = display.value.slice(0, -1);
+        } else {
+          display.value = "0";
+        }
+      } 
+      else if (value === "=") {
+        try {
+          display.value = eval(display.value);
+        } catch {
+          display.value = "Error";
+        }
+      } 
+      else if (value === "NONE") {
+        // 아무 동작 없음
+      } 
+      else if (["+", "-", "*", "/"].includes(value)) {
+        if (display.value === "0") display.value = "";
+        display.value += value;
+      } 
+      else {
+        if (display.value === "0") display.value = value;
+        else display.value += value;
+      }
+    }
+  </script>
+</body>
+</html>

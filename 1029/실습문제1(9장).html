@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>자바스크립트 연습</title>
+    <script>
+        window.addEventListener("blur", function() {
+            document.body.style.backgroundColor = "lightgray";
+        });
+        window.addEventListener("focus", function() {
+            document.body.style.backgroundColor = "white";
+        });
+    </script>
+</head>
+<body>
+    <h3>포커스와 onblur, onfocus</h3>
+    <hr>
+    <h2>
+        브라우저 바깥에 마우스를 클릭하면 window 객체에 blur 이벤트가<br>
+        발생하고 다시 마우스를 클릭하면 window 객체에 focus 이벤트가<br>
+        발생한다.
+    </h2>
+</body>
+</html>

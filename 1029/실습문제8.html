@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<title>자바스크립트 연습</title>
+<script>
+let scale = 1;
+function growImage(img) {
+  if (scale < 4) {
+    scale += 1;
+    img.style.transform = "scaleX(" + scale + ")";
+    img.style.transition = "transform 0.3s";
+  }
+}
+</script>
+<style>
+img {
+  width: 200px;
+  cursor: pointer;
+  transition: transform 0.3s;
+}
+</style>
+</head>
+<body>
+<h3>클릭하면 2, 3, 4배로 옆으로 늘어납니다.</h3>
+<hr>
+<img src="E:/과제4/스폰지밥.jpg" onclick="growImage(this)">
+</body>
+</html>
