@@ -1,0 +1,300 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>진실 탐구 프로젝트</title>
+<style>
+body {
+  margin:0;
+  font-family:"Noto Sans KR",sans-serif;
+  background-color:#fdfdfd;
+  color:#111;
+  overflow:hidden;
+}
+#brain-bg {
+  position:fixed;
+  inset:0;
+  display:flex;
+  justify-content:center;
+  align-items:center;
+  font-size:30vw;
+  color:rgba(0,0,0,0.08);
+  user-select:none;
+  pointer-events:none;
+  z-index:0;
+}
+#main {
+  position:relative;
+  z-index:1;
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  justify-content:center;
+  height:100vh;
+  gap:20px;
+}
+button.topic {
+  background:#fff;
+  border:2px solid #555;
+  border-radius:10px;
+  padding:15px 25px;
+  font-size:1.2em;
+  cursor:pointer;
+  transition:.3s;
+}
+button.topic:hover {background:#eee;}
+.section {
+  display:none;
+  flex-direction:column;
+  align-items:center;
+  justify-content:center;
+  height:100vh;
+  text-align:center;
+  padding:40px;
+}
+.desc {font-size:1.1em; line-height:1.6em; margin-bottom:20px;}
+.article-box {
+  width:90%;
+  overflow-x:auto;
+  white-space:nowrap;
+  border-top:1px solid #aaa;
+  border-bottom:1px solid #aaa;
+  padding:20px;
+  font-size:1em;
+}
+.article-box::-webkit-scrollbar{display:none;}
+.article-box p{display:inline-block; width:300vw;}
+.link {margin-top:10px;}
+.quiz {
+  display:none;
+  flex-direction:column;
+  align-items:center;
+  justify-content:center;
+  text-align:center;
+  height:100vh;
+  padding:30px;
+  position:relative;
+}
+.question {
+  font-size:1.2em;
+  margin-bottom:20px;
+}
+.choice {
+  display:block;
+  margin:8px;
+  padding:10px 20px;
+  border:2px solid #333;
+  border-radius:6px;
+  cursor:pointer;
+  background:#fff;
+}
+.choice:hover {background:#eee;}
+.arrow-left {
+  position:fixed;
+  top:25px;
+  left:25px;
+  font-size:2em;
+  cursor:pointer;
+  color:#007BFF;
+  user-select:none;
+  z-index:10;
+  display:none;
+}
+.arrow-right {
+  position:fixed;
+  top:25px;
+  right:25px;
+  font-size:2em;
+  cursor:pointer;
+  color:#007BFF;
+  user-select:none;
+  z-index:10;
+  display:none;
+}
+.result {font-size:2em;margin-top:20px;}
+</style>
+</head>
+<body>
+<div id="brain-bg">🧠</div>
+<div class="arrow-left" id="leftArrow" onclick="goBack()">⬅</div>
+<div class="arrow-right" id="rightArrow" onclick="nextQuestion()">➡</div>
+
+<div id="main">
+  <h1>진실 탐구 프로젝트</h1>
+  <button class="topic" onclick="openTopic('cicada')">시카다 3301</button>
+  <button class="topic" onclick="openTopic('freemason')">프리메이슨</button>
+  <button class="topic" onclick="openTopic('illuminati')">일루미나티</button>
+  <button class="topic" onclick="openTopic('flatearth')">지구평평설</button>
+  <button class="topic" onclick="openTopic('creationism')">창조론</button>
+</div>
+
+<div id="topicPage" class="section">
+  <div class="desc" id="desc"></div>
+  <div class="article-box" id="article"></div>
+  <div class="link" id="source"></div>
+  <button id="quizBtn" onclick="startQuiz()">퀴즈 시작</button>
+</div>
+
+<div id="quizPage" class="quiz">
+  <div class="question" id="question"></div>
+  <div id="choices"></div>
+  <div class="result" id="result"></div>
+</div>
+
+<script>
+const topics={
+  cicada:{
+    desc:"시카다 3301은 인터넷 상의 수수께끼 조직으로,<br>복잡한 암호 퍼즐을 통해 인재를 모집하며,<br>지성의 시험장이라 불렸다.",
+    article:"2012년 첫 퍼즐이 레딧에 게시되었다.<br>암호문은 복잡한 수학과 철학 문제로 구성됐다.<br>QR코드를 찾아 실제 장소를 방문해야 했다.<br>참가자들은 인터넷을 넘나들며 협력했다.<br>일부는 퍼즐이 정부기관 실험이라 주장했다.<br>시카다의 목적은 끝내 밝혀지지 않았다.<br>수많은 추리 커뮤니티가 생겨났다.<br>3차례 퍼즐이 이어졌지만 해답은 없었다.<br>해커 문화의 상징이 되었다.<br>지금도 미스터리로 남아 있다.",
+    link:"https://en.wikipedia.org/wiki/Cicada_3301",
+    quiz:[
+      ["시카다 3301 첫 등장은?",["2012년","2010년","2015년","2008년"],0],
+      ["퍼즐은 어떤 분야?",["암호학","미술","요리","정치"],0],
+      ["퍼즐 참여 장소?",["전 세계","미국만","유럽만","한국"],0],
+      ["조직의 목적은?",["불명","홍보","기부","교육"],0],
+      ["퍼즐 수는?",["3회","1회","5회","10회"],0],
+      ["관련 주장?",["정부 연계","영화 촬영","광고","대학 프로젝트"],0],
+      ["참가자들의 협력은?",["온라인","오프라인","신문","방송"],0],
+      ["시카다의 본질은?",["미스터리","공개","기업","게임"],0],
+      ["QR코드는 어디에?",["실제 장소","가상","서버","앱"],0],
+      ["현재 평판은?",["미스터리 상징","사기","폐지","공개됨"],0]
+    ]
+  },
+  freemason:{
+    desc:"프리메이슨은 중세 석공 길드에서 기원한 조직으로,<br>형제애와 자유를 강조하며,<br>오늘날에도 자선 활동을 이어간다.",
+    article:"14세기 유럽 석공 길드에서 시작되었다.<br>시간이 지나 철학적 단체로 발전했다.<br>자유와 평등, 박애를 이상으로 삼았다.<br>상징은 컴퍼스와 각도기이다.<br>비밀 의식과 계급 체계를 지닌다.<br>미국 건국자 중 다수가 회원이었다.<br>세계 각국에 지부가 존재한다.<br>음모론의 대상으로도 알려져 있다.<br>그러나 실제로는 인도주의적 활동을 한다.<br>전통을 유지한 채 현대화되었다.",
+    link:"https://en.wikipedia.org/wiki/Freemasonry",
+    quiz:[
+      ["기원은?",["중세 석공길드","종교단체","군사조직","학교"],0],
+      ["상징은?",["컴퍼스와 각도기","해골","책","십자가"],0],
+      ["이념은?",["자유 평등 박애","권력","부","정치"],0],
+      ["활동?",["자선","전쟁","무역","교육만"],0],
+      ["유명 회원?",["정치인 철학자","운동선수","가수","요리사"],0],
+      ["비판 이유?",["비밀성","폭력성","부패","세습"],0],
+      ["지부 분포?",["전 세계","미국만","유럽만","아시아"],0],
+      ["건국과 관련된 국가는?",["미국","영국","독일","이탈리아"],0],
+      ["의식 특징?",["계급 구조","무작위","공개적","단일"],0],
+      ["현대 평판?",["다양함","부정적","무시","금지"],0]
+    ]
+  },
+  illuminati:{
+    desc:"일루미나티는 계몽주의 시대의 비밀 결사로,<br>지식과 이성을 추구했으나,<br>지금은 세계 지배 음모론의 상징이 되었다.",
+    article:"1776년 독일 바이에른에서 창설되었다.<br>창립자는 아담 바이스하우프트였다.<br>이성적 사고와 자유를 목표로 했다.<br>당시 교회 권력에 반대했다.<br>정치적 탄압으로 해산되었다.<br>이후 이름만 남아 전설이 되었다.<br>현대 음모론에서 글로벌 엘리트와 연결된다.<br>미디어에서 자주 언급된다.<br>눈과 피라미드 상징이 유명하다.<br>실존 여부는 논쟁 중이다.",
+    link:"https://en.wikipedia.org/wiki/Illuminati",
+    quiz:[
+      ["창립 시기?",["1776년","1800년","1600년","1900년"],0],
+      ["창립자?",["아담 바이스하우프트","칸트","루소","볼테르"],0],
+      ["이념?",["이성 자유","권력","전쟁","종교"],0],
+      ["대립 세력?",["교회","군","상인","시민"],0],
+      ["해산 이유?",["탄압","내분","재정","전쟁"],0],
+      ["오늘날 평판?",["음모론","학회","없음","예술단체"],0],
+      ["상징?",["피라미드 눈","별","해골","돔"],0],
+      ["탄생 지역?",["독일","프랑스","영국","미국"],0],
+      ["회원층?",["지식인","농민","군인","상인"],0],
+      ["현재 존재?",["불분명","확실","없음","변형"],0]
+    ]
+  },
+  flatearth:{
+    desc:"지구평평설은 지구가 구형이 아니라 평면이라고 믿는 사상으로,<br>과학계와 대립하며,<br>인터넷 시대에 다시 확산되었다.",
+    article:"고대 문명은 평면지구를 믿었다.<br>코페르니쿠스 이후 구형설이 정립됐다.<br>일부는 이를 거부했다.<br>20세기 중반 평평설이 부활했다.<br>인터넷으로 확산되었다.<br>유튜브에서 평평설 영상이 유행했다.<br>NASA의 사진이 조작됐다고 주장한다.<br>과학자들은 공개 실험으로 반박했다.<br>여전히 일부 신봉자가 존재한다.<br>대표적인 현대 음모론으로 꼽힌다.",
+    link:"https://en.wikipedia.org/wiki/Flat_Earth",
+    quiz:[
+      ["주장은?",["지구는 평평하다","지구는 둥글다","태양이 돈다","달이 돈다"],0],
+      ["현대 확산 경로?",["인터넷","신문","라디오","책"],0],
+      ["비판 대상?",["NASA","UN","WHO","EU"],0],
+      ["등장 매체?",["유튜브","라디오","영화","신문"],0],
+      ["신봉자 수?",["소수","다수","없음","비밀"],0],
+      ["근거 주장?",["사진 조작","문헌","물리학","철학"],0],
+      ["반박자는?",["과학자","언론인","종교인","연예인"],0],
+      ["평판?",["음모론","정설","학설","진리"],0],
+      ["재등장 시기?",["20세기","18세기","21세기","19세기"],0],
+      ["모델 형태?",["원판","삼각형","정육면체","타원"],0]
+    ]
+  },
+  creationism:{
+    desc:"창조론은 신이 세상과 생명을 창조했다는 믿음으로,<br>진화론과 대립하며,<br>종교적 논쟁의 중심에 서 있다.",
+    article:"성경의 창세기에 기반을 둔다.<br>다윈의 진화론과 대립한다.<br>미국에서 교육 논쟁이 격렬했다.<br>법정에서도 논의된 바 있다.<br>과학계는 증거 부족을 지적했다.<br>신앙인들은 상징성을 강조했다.<br>일부는 창조와 진화의 조화를 주장한다.<br>여러 종교에서 각기 다른 해석을 갖는다.<br>지속적인 철학적 논쟁이 이어진다.<br>현대에도 토론이 계속되고 있다.",
+    link:"https://en.wikipedia.org/wiki/Creationism",
+    quiz:[
+      ["창조론의 기반?",["성경 창세기","다윈 이론","철학서","역사서"],0],
+      ["대립 이론?",["진화론","상대성이론","양자론","기후론"],0],
+      ["논쟁 지역?",["미국","한국","중국","일본"],0],
+      ["논쟁 분야?",["교육","군사","정치","예술"],0],
+      ["신앙적 의미?",["중요","없음","부분적","불명"],0],
+      ["비판 이유?",["증거 부족","비윤리","비과학","종교 탄압"],0],
+      ["타협 이론?",["조화론","배척","무신론","모순론"],0],
+      ["논의 형태?",["철학적","정치적","경제적","감정적"],0],
+      ["핵심 인물?",["종교학자","과학자","정치가","철학자"],0],
+      ["현대 논의?",["지속","종결","감소","폐지"],0]
+    ]
+  }
+};
+
+let currentTopic=null;
+let qIndex=0,score=0;
+const leftArrow=document.getElementById('leftArrow');
+const rightArrow=document.getElementById('rightArrow');
+
+function openTopic(t){
+  currentTopic=topics[t];
+  document.getElementById('main').style.display='none';
+  document.getElementById('topicPage').style.display='flex';
+  document.getElementById('desc').innerHTML=currentTopic.desc;
+  document.getElementById('article').innerHTML=currentTopic.article;
+  document.getElementById('source').innerHTML=`<a href="${currentTopic.link}" target="_blank">${currentTopic.link}</a>`;
+  leftArrow.style.display='block';
+  rightArrow.style.display='none';
+}
+function goBack(){
+  const topicPage=document.getElementById('topicPage');
+  const quizPage=document.getElementById('quizPage');
+  if(quizPage.style.display==='flex'){
+    quizPage.style.display='none';
+    topicPage.style.display='flex';
+    rightArrow.style.display='none';
+  } else if(topicPage.style.display==='flex'){
+    topicPage.style.display='none';
+    document.getElementById('main').style.display='flex';
+    leftArrow.style.display='none';
+  }
+}
+function startQuiz(){
+  qIndex=0;score=0;
+  document.getElementById('topicPage').style.display='none';
+  document.getElementById('quizPage').style.display='flex';
+  showQuestion();
+  rightArrow.style.display='block';
+}
+function showQuestion(){
+  let q=currentTopic.quiz[qIndex];
+  document.getElementById('question').innerText=q[0];
+  const ch=document.getElementById('choices');
+  ch.innerHTML='';
+  q[1].forEach((c,i)=>{
+    let b=document.createElement('div');
+    b.className='choice';
+    b.innerText=c;
+    b.onclick=()=>checkAnswer(i);
+    ch.appendChild(b);
+  });
+  document.getElementById('result').innerText='';
+}
+function checkAnswer(i){
+  if(i===currentTopic.quiz[qIndex][2]) score++;
+  document.getElementById('result').innerText="✔ 선택 완료";
+}
+function nextQuestion(){
+  if(qIndex<currentTopic.quiz.length-1){
+    qIndex++;
+    showQuestion();
+  } else {
+    document.getElementById('choices').innerHTML='';
+    document.getElementById('question').innerText='퀴즈 완료!';
+    document.getElementById('result').innerText=`맞힌 문제 ${score} / 10`;
+    rightArrow.style.display='none';
+  }
+}
+</script>
+</body>
+</html>
