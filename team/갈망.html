@@ -116,6 +116,16 @@ button.topic:hover {background:#eee;}
 </style>
 </head>
 <body>
+<!-- 좌측 상단 돌아가기 버튼 -->
+<div style="position: fixed; top: 20px; left: 20px; z-index: 1000;">
+  <button onclick="window.location.href='https://si0-source.github.io/webpro/team/main.html'" 
+    style="padding:8px 14px; font-size:1rem; background:rgba(255,255,255,0.9); 
+           border:2px solid #00796b; border-radius:8px; cursor:pointer; 
+           color:#004d40; font-weight:bold; transition:0.3s;">
+    ← 돌아가기
+  </button>
+</div>
+
 <div id="brain-bg">🧠</div>
 <div class="arrow-left" id="leftArrow" onclick="goBack()">⬅</div>
 <div class="arrow-right" id="rightArrow" onclick="nextQuestion()">➡</div>
@@ -133,7 +143,7 @@ button.topic:hover {background:#eee;}
   <div class="desc" id="desc"></div>
   <div class="article-box" id="article"></div>
   <div class="link" id="source"></div>
-  <button id="quizBtn" onclick="startQuiz()">퀴즈시작</button>
+  <button id="quizBtn" onclick="startQuiz()">퀴즈시각</button>
 </div>
 <!-- 찬반 선택 화면 -->
 <div id="preQuiz" class="section">
