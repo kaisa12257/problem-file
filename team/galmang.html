@@ -102,7 +102,6 @@ button.topic:hover {background:#eee;}
   z-index:10;
   display:none;
 }
-
 .arrow-right {
   position:fixed;
   top:50%;
@@ -115,18 +114,20 @@ button.topic:hover {background:#eee;}
   z-index:10;
   display:none;
 }
-
 .result {font-size:2em;margin-top:20px;}
 </style>
 </head>
 <body>
 <!-- 좌측 상단 돌아가기 버튼 -->
 <div style="position: fixed; top: 20px; left: 20px; z-index: 1000;">
-  <button onclick="window.location.href='https://kaisa12257.github.io/problem-file/team/갈망.html'">
+<button 
+  onclick="window.open('https://nojeonggyun.github.io/webprogarmming/team/Project/main.html', '_self')" 
+  style="padding:8px 14px; font-size:1rem; background:#fff; border:2px solid #007BFF; border-radius:8px; cursor:pointer; color:#007BFF; font-weight:bold; transition:0.3s;">
   ← 돌아가기
 </button>
 
 </div>
+
 
 <div id="brain-bg">🧠</div>
 <div class="arrow-left" id="leftArrow" onclick="goBack()">⬅</div>
@@ -145,8 +146,9 @@ button.topic:hover {background:#eee;}
   <div class="desc" id="desc"></div>
   <div class="article-box" id="article"></div>
   <div class="link" id="source"></div>
-  <button id="quizBtn" onclick="startQuiz()">퀴즈시각</button>
+  <button id="quizBtn" onclick="startQuiz()">퀴즈시작</button>
 </div>
+
 <!-- 찬반 선택 화면 -->
 <div id="preQuiz" class="section">
   <h2 id="preTitle"></h2>
@@ -160,6 +162,8 @@ button.topic:hover {background:#eee;}
 </div>
 
 <script>
+
+
 const topics={
   cicada:{
     desc:"시카다 3301은 인터넷 상의 수수께끼 조직으로,<br>복잡한 암호 퍼즐을 통해 인재를 모집하며,<br>지성의 시험장이라 불렸다.",
@@ -263,6 +267,7 @@ function openTopic(t){
   leftArrow.style.display='block';
   rightArrow.style.display='none';
 }
+
 function goBack(){
   const topicPage=document.getElementById('topicPage');
   const quizPage=document.getElementById('quizPage');
@@ -276,9 +281,8 @@ function goBack(){
     leftArrow.style.display='none';
   }
 }
+
 function startQuiz(){
-console.log("퀴즈 시작 버튼 클릭됨");
-  // 주제별 사전 질문 처리
   if(currentTopic === topics.flatearth){
     showPreQuestion("지구 평평설에 대한 나의 주장은?", ["찬성", "반대"]);
   }
@@ -286,60 +290,43 @@ console.log("퀴즈 시작 버튼 클릭됨");
     showPreQuestion("창조론에 대한 나의 생각은?", ["사실이다", "아니다"]);
   }
   else{
-    // 일반 주제는 바로 퀴즈로
     beginQuiz();
   }
 }
+
 function showPreQuestion(title, buttons){
   document.getElementById('topicPage').style.display='none';
   document.getElementById('preQuiz').style.display='flex';
   document.getElementById('preTitle').innerText = title;
-
   const btnBox = document.getElementById('preButtons');
   btnBox.innerHTML = '';
-  
-  // 설명을 표시할 공간 추가
   let descBox = document.createElement('div');
   descBox.id = "preDesc";
   descBox.style.marginTop = "30px";
   descBox.style.fontSize = "1.1em";
   descBox.style.lineHeight = "1.6em";
   descBox.style.maxWidth = "80%";
-
-  // 버튼 생성
   buttons.forEach(text=>{
     const b = document.createElement('button');
     b.className = 'topic';
     b.innerText = text;
-    b.onclick = ()=>{
-      showOpinion(text, descBox); // 버튼 클릭 시 설명 표시
-    };
+    b.onclick = ()=>{ showOpinion(text, descBox); };
     btnBox.appendChild(b);
   });
-
-  // 버튼 밑에 설명 div 추가
   document.getElementById('preQuiz').appendChild(descBox);
-
   leftArrow.style.display='block';
   rightArrow.style.display='none';
 }
 
-// 선택한 입장에 따른 내용 표시
 function showOpinion(choice, descBox){
-  // 설명 초기화 (이전 내용 제거)
   descBox.innerHTML = "";
-
   if(currentTopic === topics.flatearth){
     if(choice === "찬성"){
       descBox.innerHTML = "🌍 <b>찬성 입장:</b> 일부는 인공위성 영상이 조작되었다고 주장하며, 지평선이 평평하다는 관찰을 근거로 듭니다.";
     } else {
       descBox.innerHTML = "🛰️ <b>반대 입장:</b> 과학적 실험과 위성 사진으로 지구가 구형임이 명백히 입증되었습니다.";
     }
-
-    // 2초 후 자동 퀴즈 시작
-    setTimeout(() => {
-      beginQuiz();
-    }, 2000);
+    setTimeout(() => { beginQuiz(); }, 2000);
   } 
   else if(currentTopic === topics.creationism){
     if(choice === "사실이다"){
@@ -347,28 +334,19 @@ function showOpinion(choice, descBox){
     } else {
       descBox.innerHTML = "🧬 <b>아니다 입장:</b> 진화론적 증거와 과학적 관찰이 더 많은 데이터를 제공한다고 봅니다.";
     }
-
-    // 2초 후 자동 퀴즈 시작
-    setTimeout(() => {
-      beginQuiz();
-    }, 2000);
+    setTimeout(() => { beginQuiz(); }, 2000);
   }
 }
-
-  // 설명이 뜬 뒤 일정 시간 후 퀴즈로 이동할 수도 있음
-  // 원하면 자동 전환 추가 가능
 
 function beginQuiz(){
   document.getElementById('topicPage').style.display='none';
   document.getElementById('preQuiz').style.display='none';
   document.getElementById('quizPage').style.display='flex';
-
   qIndex = 0;
   score = 0;
   showQuestion();
   rightArrow.style.display='block';
 }
-
 
 function showQuestion(){
   let q=currentTopic.quiz[qIndex];
@@ -384,20 +362,16 @@ function showQuestion(){
   });
   document.getElementById('result').innerText='';
 }
+
 function checkAnswer(i){
   const ch = document.querySelectorAll('.choice');
   ch.forEach(c => {
     c.style.background = '#fff';
     c.style.color = '#000';
   });
-
-  // 클릭된 보기만 파랗게
   ch[i].style.background = '#007BFF';
   ch[i].style.color = '#fff';
-
   if(i === currentTopic.quiz[qIndex][2]) score++;
-
-  // 문구 제거
   document.getElementById('result').innerText = "";
 }
 
@@ -412,8 +386,6 @@ function nextQuestion(){
     rightArrow.style.display='none';
   }
 }
-
 </script>
 </body>
-
 </html>
