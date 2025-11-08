@@ -314,6 +314,9 @@ function showPreQuestion(title, buttons){
 
 // 선택한 입장에 따른 내용 표시
 function showOpinion(choice, descBox){
+  // 설명 초기화 (이전 내용 제거)
+  descBox.innerHTML = "";
+
   if(currentTopic === topics.flatearth){
     if(choice === "찬성"){
       descBox.innerHTML = "🌍 <b>찬성 입장:</b> 일부는 인공위성 영상이 조작되었다고 주장하며, 지평선이 평평하다는 관찰을 근거로 듭니다.";
@@ -321,7 +324,7 @@ function showOpinion(choice, descBox){
       descBox.innerHTML = "🛰️ <b>반대 입장:</b> 과학적 실험과 위성 사진으로 지구가 구형임이 명백히 입증되었습니다.";
     }
 
-    // ✅ 설명이 뜬 뒤 자동으로 퀴즈 시작 (2초 뒤 전환)
+    // 2초 후 자동 퀴즈 시작
     setTimeout(() => {
       beginQuiz();
     }, 2000);
@@ -333,7 +336,7 @@ function showOpinion(choice, descBox){
       descBox.innerHTML = "🧬 <b>아니다 입장:</b> 진화론적 증거와 과학적 관찰이 더 많은 데이터를 제공한다고 봅니다.";
     }
 
-    // ✅ 설명이 뜬 뒤 자동으로 퀴즈 시작 (2초 뒤 전환)
+    // 2초 후 자동 퀴즈 시작
     setTimeout(() => {
       beginQuiz();
     }, 2000);
