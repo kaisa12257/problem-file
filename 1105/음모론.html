@@ -133,7 +133,7 @@ button.topic:hover {background:#eee;}
   <div class="desc" id="desc"></div>
   <div class="article-box" id="article"></div>
   <div class="link" id="source"></div>
-  <button id="quizBtn" onclick="startQuiz()">퀴즈 시작</button>
+  <button id="quizBtn" onclick="startQuiz()">퀴즈시각</button>
 </div>
 <!-- 찬반 선택 화면 -->
 <div id="preQuiz" class="section">
@@ -265,6 +265,7 @@ function goBack(){
   }
 }
 function startQuiz(){
+console.log("퀴즈 시작 버튼 클릭됨");
   // 주제별 사전 질문 처리
   if(currentTopic === topics.flatearth){
     showPreQuestion("지구 평평설에 대한 나의 주장은?", ["찬성", "반대"]);
@@ -319,6 +320,11 @@ function showOpinion(choice, descBox){
     } else {
       descBox.innerHTML = "🛰️ <b>반대 입장:</b> 과학적 실험과 위성 사진으로 지구가 구형임이 명백히 입증되었습니다.";
     }
+
+    // ✅ 설명이 뜬 뒤 자동으로 퀴즈 시작 (2초 뒤 전환)
+    setTimeout(() => {
+      beginQuiz();
+    }, 2000);
   } 
   else if(currentTopic === topics.creationism){
     if(choice === "사실이다"){
@@ -326,19 +332,28 @@ function showOpinion(choice, descBox){
     } else {
       descBox.innerHTML = "🧬 <b>아니다 입장:</b> 진화론적 증거와 과학적 관찰이 더 많은 데이터를 제공한다고 봅니다.";
     }
+
+    // ✅ 설명이 뜬 뒤 자동으로 퀴즈 시작 (2초 뒤 전환)
+    setTimeout(() => {
+      beginQuiz();
+    }, 2000);
   }
+}
 
   // 설명이 뜬 뒤 일정 시간 후 퀴즈로 이동할 수도 있음
   // 원하면 자동 전환 추가 가능
-}
 
 function beginQuiz(){
+  document.getElementById('topicPage').style.display='none';
   document.getElementById('preQuiz').style.display='none';
-  qIndex = 0; score = 0;
   document.getElementById('quizPage').style.display='flex';
+
+  qIndex = 0;
+  score = 0;
   showQuestion();
   rightArrow.style.display='block';
 }
+
 
 function showQuestion(){
   let q=currentTopic.quiz[qIndex];
@@ -382,6 +397,7 @@ function nextQuestion(){
     rightArrow.style.display='none';
   }
 }
+
 </script>
 </body>
 </html>
