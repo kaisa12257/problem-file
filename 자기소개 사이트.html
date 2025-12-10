@@ -1,0 +1,426 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>이재윤 - 포트폴리오</title>
+    
+    <!-- Google Fonts (Noto Sans KR) -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;400;500;700;900&display=swap" rel="stylesheet">
+    
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <!-- Font Awesome (Icons) -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['"Noto Sans KR"', 'sans-serif'],
+                    },
+                    colors: {
+                        primary: '#818cf8', // Indigo 400
+                        secondary: '#f472b6', // Pink 400
+                        dark: '#1e293b', // Slate 800
+                    }
+                }
+            }
+        }
+    </script>
+    
+    <style>
+        /* 기본 스크롤 숨기기 및 차단 */
+        html, body {
+            margin: 0;
+            padding: 0;
+            width: 100%;
+            height: 100%;
+            overflow: hidden; /* 스크롤 차단 */
+        }
+
+        /* 페이지 전체 래퍼 (슬라이드 이동용) */
+        #page-wrapper {
+            width: 100%;
+            height: 100%;
+            transition: transform 1s cubic-bezier(0.645, 0.045, 0.355, 1.000); /* 부드러운 이동 효과 */
+        }
+
+        /* 각 섹션 풀페이지 설정 */
+        section {
+            width: 100%;
+            height: 100vh; /* 화면 높이에 딱 맞춤 */
+            overflow-y: auto; /* 내용이 넘치면 내부 스크롤 허용 */
+            position: relative;
+            display: flex;
+            flex-direction: column;
+            justify-content: center; /* 세로 중앙 정렬 */
+            padding-top: 80px; /* 네비게이션 바 높이만큼 여백 */
+        }
+
+        /* 스크롤바 숨기기 (깔끔함을 위해) */
+        section::-webkit-scrollbar {
+            display: none;
+        }
+        section {
+            -ms-overflow-style: none;
+            scrollbar-width: none;
+        }
+
+        /* 그라데이션 텍스트 */
+        .text-gradient {
+            background: linear-gradient(to right, #818cf8, #f472b6);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        /* 배경 애니메이션 */
+        .bg-animated {
+            background: linear-gradient(-45deg, #334155, #4338ca, #6366f1, #475569);
+            background-size: 400% 400%;
+            animation: gradient 15s ease infinite;
+        }
+
+        @keyframes gradient {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+        
+        .white-glow {
+            position: absolute;
+            width: 600px;
+            height: 600px;
+            background: radial-gradient(circle, rgba(255,255,255,0.08) 0%, rgba(255,255,255,0) 70%);
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            z-index: 0;
+            pointer-events: none;
+        }
+
+        /* 애니메이션 효과 (AOS 대체) */
+        .fade-in-up {
+            opacity: 0;
+            transform: translateY(20px);
+            transition: opacity 0.8s ease-out, transform 0.8s ease-out;
+        }
+        
+        .active-section .fade-in-up {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        /* 딜레이 클래스 */
+        .delay-100 { transition-delay: 0.1s; }
+        .delay-200 { transition-delay: 0.2s; }
+        .delay-300 { transition-delay: 0.3s; }
+    </style>
+</head>
+<body class="bg-slate-700 text-white font-sans antialiased">
+
+    <!-- 네비게이션 바 -->
+    <nav class="fixed w-full z-50 top-0 start-0 bg-slate-700/90 backdrop-blur-md border-b border-slate-600 transition-all duration-300">
+        <div class="max-w-screen-xl flex flex-wrap items-center justify-between mx-auto p-4">
+            <a href="javascript:void(0)" onclick="navigateTo(0)" class="flex items-center space-x-3 rtl:space-x-reverse">
+                <span class="self-center text-2xl font-bold whitespace-nowrap text-white">Jae<span class="text-primary">Yoon</span>.</span>
+            </a>
+            
+            <!-- 모바일 메뉴 버튼 -->
+            <button id="menu-toggle" type="button" class="inline-flex items-center p-2 w-10 h-10 justify-center text-sm text-gray-300 rounded-lg md:hidden hover:bg-slate-600 focus:outline-none focus:ring-2 focus:ring-slate-500">
+                <span class="sr-only">Open main menu</span>
+                <i class="fas fa-bars text-xl"></i>
+            </button>
+
+            <div class="hidden w-full md:block md:w-auto" id="navbar-menu">
+                <ul class="font-medium flex flex-col p-4 md:p-0 mt-4 border border-slate-500 rounded-lg bg-slate-600 md:flex-row md:space-x-8 rtl:space-x-reverse md:mt-0 md:border-0 md:bg-transparent">
+                    <li>
+                        <button onclick="navigateTo(0)" class="block py-2 px-3 text-white hover:text-primary transition-colors">홈</button>
+                    </li>
+                    <li>
+                        <button onclick="navigateTo(1)" class="block py-2 px-3 text-gray-200 hover:text-primary transition-colors">소개</button>
+                    </li>
+                    <li>
+                        <button onclick="navigateTo(2)" class="block py-2 px-3 text-gray-200 hover:text-primary transition-colors">배움</button>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <!-- 페이지 전체 래퍼 -->
+    <div id="page-wrapper">
+        
+        <!-- 히어로 섹션 (Index 0) -->
+        <section id="home" class="bg-animated relative overflow-hidden active-section">
+            <div class="absolute top-20 left-10 w-72 h-72 bg-indigo-400/30 rounded-full mix-blend-screen filter blur-3xl opacity-40 animate-blob"></div>
+            <div class="absolute top-40 right-10 w-72 h-72 bg-pink-400/30 rounded-full mix-blend-screen filter blur-3xl opacity-40 animate-blob animation-delay-2000"></div>
+            <div class="white-glow"></div>
+
+            <div class="container mx-auto px-4 text-center z-10 fade-in-up">
+                <h1 class="text-3xl md:text-5xl font-black mb-8 tracking-tight leading-relaxed text-white drop-shadow-lg">
+                    안녕하십니까,<br>
+                    저는 경성대학교 소프트웨어 학과를<br>
+                    다니고 있는 24학번 <span class="text-gradient">이재윤</span> 이라고 합니다.
+                </h1>
+                
+                <div class="flex flex-col md:flex-row gap-4 justify-center items-center">
+                    <!-- 자기소개서 보기 버튼 -->
+                    <button onclick="navigateTo(1)" class="px-8 py-3 bg-primary hover:bg-primary/90 text-white rounded-full font-bold transition-all transform hover:scale-105 shadow-lg shadow-primary/30 border border-indigo-300/30">
+                        자기소개서 보기
+                    </button>
+                    <!-- 배움 보기 버튼 (NEW) -->
+                    <button onclick="navigateTo(2)" class="px-8 py-3 bg-white/10 hover:bg-white/20 text-white border border-white/50 rounded-full font-bold transition-all transform hover:scale-105 backdrop-blur-sm">
+                        배움 보기
+                    </button>
+                </div>
+                
+                <div class="mt-12 flex space-x-6 justify-center">
+                    <a href="#" class="text-gray-300 hover:text-white transition-colors text-2xl"><i class="fab fa-github"></i></a>
+                    <a href="#" class="text-gray-300 hover:text-white transition-colors text-2xl"><i class="fab fa-linkedin"></i></a>
+                    <a href="#" class="text-gray-300 hover:text-white transition-colors text-2xl"><i class="fab fa-instagram"></i></a>
+                    <a href="#" class="text-gray-300 hover:text-white transition-colors text-2xl"><i class="fas fa-envelope"></i></a>
+                </div>
+            </div>
+        </section>
+
+        <!-- About 섹션 (Index 1) -->
+        <section id="about" class="bg-slate-700">
+            <div class="container mx-auto px-4 fade-in-up delay-100">
+                <div class="text-center mb-16">
+                    <h2 class="text-3xl md:text-4xl font-bold mb-4 text-white">About <span class="text-primary">Me</span></h2>
+                    <div class="w-20 h-1 bg-gradient-to-r from-primary to-secondary mx-auto rounded-full"></div>
+                </div>
+                
+                <div class="max-w-3xl mx-auto text-center">
+                    <h3 class="text-2xl font-bold mb-8 text-white">게임 개발자를 꿈꾸는 예비 개발자</h3>
+                    <div class="space-y-6 text-gray-200 leading-loose text-lg">
+                        <p>
+                            어릴 적부터 게임이 주는 즐거움에 매료되어, 고등학생 시절부터 자연스럽게<br class="hidden md:block">
+                            <strong>게임 개발자</strong>라는 꿈을 가지게 되었습니다.<br>
+                            이 꿈을 실현하기 위해 <strong>경성대학교 소프트웨어학과</strong>에 진학하여 학업에 정진하고 있습니다.
+                        </p>
+                        <p>
+                            C언어를 비롯한 전공 기초를 배우는 과정에서 때로는 수업 내용이 어렵고,<br class="hidden md:block">
+                            과제를 수행하며 막막함을 느낄 때도 있었습니다.
+                        </p>
+                        <p>
+                            하지만 학교에서 과제(개별, 조별)로 사이트들을 직접 만들어 보면서<br class="hidden md:block">
+                            어떠한 기능들이 존재하고, 어떻게 사이트들이 만들어지는지에 대해 더 깊이 알게 되었습니다.
+                        </p>
+                    </div>
+                </div>
+                <!-- 이동 버튼 추가 -->
+                <div class="text-center mt-12">
+                    <button onclick="navigateTo(2)" class="text-gray-400 hover:text-white transition-colors animate-bounce">
+                        <i class="fas fa-chevron-down mb-1"></i><br>배움으로 이동
+                    </button>
+                </div>
+            </div>
+        </section>
+
+        <!-- Learning 섹션 (Index 2) -->
+        <section id="learning" class="bg-slate-600/50">
+            <div class="container mx-auto px-4 fade-in-up delay-100">
+                <div class="text-center mb-16">
+                    <h2 class="text-3xl md:text-4xl font-bold mb-4 text-white">My <span class="text-secondary">Learning</span></h2>
+                    <div class="w-20 h-1 bg-gradient-to-r from-primary to-secondary mx-auto rounded-full"></div>
+                    <p class="text-gray-300 mt-4">소프트웨어 학과에서 배우고 경험한 것들입니다.</p>
+                </div>
+
+                <div class="flex flex-col md:flex-row justify-center gap-8 max-w-4xl mx-auto">
+                    <!-- 항목 1: 수업을 통해 배운 것 (모달 열림) -->
+                    <div class="w-full md:w-1/2 group cursor-pointer" onclick="openModal('classModal')">
+                        <div class="bg-slate-700 p-10 rounded-2xl border border-slate-500 hover:border-primary transition-all duration-300 transform group-hover:-translate-y-2 group-hover:shadow-2xl group-hover:shadow-primary/20 text-center h-full flex flex-col items-center justify-center">
+                            <div class="w-20 h-20 bg-primary/20 rounded-full flex items-center justify-center mb-6 text-primary group-hover:bg-primary group-hover:text-white transition-colors duration-300">
+                                <i class="fas fa-book-open text-3xl"></i>
+                            </div>
+                            <h3 class="text-2xl font-bold text-white mb-2">수업을 통해 배운 것</h3>
+                            <p class="text-gray-300 text-sm">Classroom Learning</p>
+                            <p class="text-xs text-primary mt-2 opacity-0 group-hover:opacity-100 transition-opacity">자세히 보기 클릭</p>
+                        </div>
+                    </div>
+
+                    <!-- 항목 2: 팀 프로젝트 (모달 열림) -->
+                    <div onclick="openModal('projectModal')" class="w-full md:w-1/2 group cursor-pointer">
+                        <div class="bg-slate-700 p-10 rounded-2xl border border-slate-500 hover:border-secondary transition-all duration-300 transform group-hover:-translate-y-2 group-hover:shadow-2xl group-hover:shadow-secondary/20 text-center h-full flex flex-col items-center justify-center">
+                            <div class="w-20 h-20 bg-secondary/20 rounded-full flex items-center justify-center mb-6 text-secondary group-hover:bg-secondary group-hover:text-white transition-colors duration-300">
+                                <i class="fas fa-users-cog text-3xl"></i>
+                            </div>
+                            <h3 class="text-2xl font-bold text-white mb-2">팀 프로젝트</h3>
+                            <p class="text-gray-300 text-sm">Team Project</p>
+                            <p class="text-xs text-secondary mt-2 opacity-0 group-hover:opacity-100 transition-opacity">자세히 보기 클릭</p>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- 처음으로 이동 버튼 -->
+                <div class="text-center mt-12">
+                    <button onclick="navigateTo(0)" class="text-gray-400 hover:text-white transition-colors">
+                        <i class="fas fa-arrow-up mb-1"></i><br>처음으로
+                    </button>
+                </div>
+            </div>
+        </section>
+
+    </div>
+
+    <!-- 수업 내용 상세 모달 (NEW) -->
+    <div id="classModal" class="fixed inset-0 z-[100] flex items-center justify-center bg-slate-900/90 backdrop-blur-sm hidden opacity-0 transition-opacity duration-300">
+        <div class="bg-slate-800 rounded-3xl border border-slate-600 max-w-2xl w-full mx-4 overflow-hidden shadow-2xl transform scale-95 transition-transform duration-300 relative" id="classModalContent">
+            <!-- 모달 헤더 -->
+            <div class="bg-gradient-to-r from-slate-700 to-slate-800 p-8 border-b border-slate-600 relative">
+                <button onclick="closeModal('classModal')" class="absolute top-6 right-6 text-gray-400 hover:text-white transition-colors">
+                    <i class="fas fa-times text-2xl"></i>
+                </button>
+                <div class="flex items-center gap-4">
+                    <div class="w-14 h-14 bg-primary/20 rounded-xl flex items-center justify-center text-primary">
+                        <i class="fas fa-graduation-cap text-3xl"></i>
+                    </div>
+                    <div>
+                        <h3 class="text-2xl font-bold text-white">수업을 통해 배운 것</h3>
+                        <p class="text-primary">Academic Knowledge</p>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- 모달 내용 -->
+            <div class="p-8 space-y-6">
+                <p class="text-gray-300 leading-relaxed text-lg">
+                    <span class="text-white font-bold">HTML</span>의 정의와 핵심 특징, <span class="text-white font-bold">CSS</span>의 구조적 설계 방법 등 웹 페이지 제작에 필수적인 용어와 개념들을 체계적으로 학습했습니다.
+                </p>
+                <p class="text-gray-300 leading-relaxed text-lg">
+                    또한 최신 <span class="text-white font-bold">AI 도구</span>의 활용법을 익혀 개발 효율을 높이는 방법을 배웠으며, 실습 과정에서 잘 안되는 부분들을 주도적으로 해결해 나가며 단순 지식 습득을 넘어 더 많은 것을 배웠습니다.
+                </p>
+            </div>
+            
+            <!-- 모달 푸터 -->
+            <div class="p-6 border-t border-slate-600 bg-slate-900/50 text-right">
+                <button onclick="closeModal('classModal')" class="px-6 py-2 bg-primary hover:bg-primary/90 text-white rounded-lg font-bold transition-colors">
+                    닫기
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- 팀 프로젝트 상세 모달 -->
+    <div id="projectModal" class="fixed inset-0 z-[100] flex items-center justify-center bg-slate-900/90 backdrop-blur-sm hidden opacity-0 transition-opacity duration-300">
+        <div class="bg-slate-800 rounded-3xl border border-slate-600 max-w-2xl w-full mx-4 overflow-hidden shadow-2xl transform scale-95 transition-transform duration-300 relative" id="projectModalContent">
+            <!-- 모달 헤더 -->
+            <div class="bg-gradient-to-r from-slate-700 to-slate-800 p-8 border-b border-slate-600 relative">
+                <button onclick="closeModal('projectModal')" class="absolute top-6 right-6 text-gray-400 hover:text-white transition-colors">
+                    <i class="fas fa-times text-2xl"></i>
+                </button>
+                <div class="flex items-center gap-4">
+                    <div class="w-14 h-14 bg-secondary/20 rounded-xl flex items-center justify-center text-secondary">
+                        <i class="fas fa-users-cog text-3xl"></i>
+                    </div>
+                    <div>
+                        <h3 class="text-2xl font-bold text-white">팀 프로젝트 경험</h3>
+                        <p class="text-secondary">Collaborative Experience</p>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- 모달 내용 -->
+            <div class="p-8 space-y-6">
+                <p class="text-gray-300 leading-relaxed text-lg">
+                    Figma, Lovable, Readdy 등 최신 <span class="text-white font-bold">AI 및 디자인 협업 도구</span>를 적극 활용하여 효율적인 작업 프로세스를 경험했습니다.
+                </p>
+                <p class="text-gray-300 leading-relaxed text-lg">
+                    또한 <span class="text-white font-bold">공공데이터 API</span> 연동을 통해 실데이터를 다루는 법을 익히고, <span class="text-white font-bold">PWA(Progressive Web App)</span> 기능을 활용하여 앱과 같은 사용자 경험을 웹에서 구현하는 등 다양한 기술에 도전했습니다.
+                </p>
+            </div>
+            
+            <!-- 모달 푸터 -->
+            <div class="p-6 border-t border-slate-600 bg-slate-900/50 text-right">
+                <button onclick="closeModal('projectModal')" class="px-6 py-2 bg-secondary hover:bg-secondary/90 text-white rounded-lg font-bold transition-colors">
+                    닫기
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // 페이지 이동 로직
+        function navigateTo(pageIndex) {
+            const wrapper = document.getElementById('page-wrapper');
+            const sections = document.querySelectorAll('section');
+            
+            // 이동 (Y축으로 화면 높이만큼 이동)
+            wrapper.style.transform = `translateY(-${pageIndex * 100}vh)`;
+            
+            // 활성 섹션 클래스 관리 (애니메이션 트리거용)
+            sections.forEach((sec, index) => {
+                if(index === pageIndex) {
+                    sec.classList.add('active-section');
+                } else {
+                    sec.classList.remove('active-section');
+                }
+            });
+
+            // 모바일 메뉴 닫기
+            if (window.innerWidth < 768) {
+                document.getElementById('navbar-menu').classList.add('hidden');
+            }
+        }
+
+        // 모달 열기 함수
+        function openModal(modalId) {
+            const modal = document.getElementById(modalId);
+            const content = modal.querySelector('div[id$="Content"]');
+            
+            modal.classList.remove('hidden');
+            
+            setTimeout(() => {
+                modal.classList.remove('opacity-0');
+                if(content) {
+                    content.classList.remove('scale-95');
+                    content.classList.add('scale-100');
+                }
+            }, 10);
+        }
+
+        // 모달 닫기 함수
+        function closeModal(modalId) {
+            const modal = document.getElementById(modalId);
+            const content = modal.querySelector('div[id$="Content"]');
+            
+            modal.classList.add('opacity-0');
+            if(content) {
+                content.classList.remove('scale-100');
+                content.classList.add('scale-95');
+            }
+            
+            setTimeout(() => {
+                modal.classList.add('hidden');
+            }, 300);
+        }
+
+        // 배경 클릭 시 닫기 (두 모달 모두 적용)
+        window.onclick = function(event) {
+            const projectModal = document.getElementById('projectModal');
+            const classModal = document.getElementById('classModal');
+            
+            if (event.target == projectModal) {
+                closeModal('projectModal');
+            }
+            if (event.target == classModal) {
+                closeModal('classModal');
+            }
+        }
+
+        // 모바일 메뉴 토글
+        const menuToggle = document.getElementById('menu-toggle');
+        const navbarMenu = document.getElementById('navbar-menu');
+        
+        menuToggle.addEventListener('click', () => {
+            navbarMenu.classList.toggle('hidden');
+        });
+    </script>
+</body>
+</html>
